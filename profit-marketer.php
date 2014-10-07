@@ -1,23 +1,13 @@
 <?php
-/**
- * GitHub Updater
- *
- * @package   ProfitMarketer_Updater
- * @author    Andy Fragen
- * @license   GPL-2.0+
- * @link      https://github.com/afragen/github-updater
- */
 
 /*
 Plugin Name:       Profit Marketer
-Plugin URI:        https://github.com/afragen/github-updater
+Plugin URI:        https://www.profitmarketer.com
 Description:       A plugin to automatically update Profit Marketer plugins and themes
 Version:           2.8.1.13
 Author:            Profit Marketer
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
-Domain Path:       /languages
-Text Domain:       profit-marketer
 Profit Marketer Plugin URI: https://github.com/DivaMedia/profit-marketer
 Profit Marketer Branch:     develop
 */
