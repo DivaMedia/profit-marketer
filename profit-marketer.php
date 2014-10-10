@@ -9,7 +9,7 @@ Author:            Profit Marketer
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 Profit Marketer Plugin URI: https://github.com/DivaMedia/profit-marketer
-Profit Marketer Branch:     develop
+Profit Marketer Branch:     profitmarketer
 */
 
 // If this file is called directly, abort.
