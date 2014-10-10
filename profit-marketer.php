@@ -4,7 +4,7 @@
 Plugin Name:       Profit Marketer
 Plugin URI:        https://www.profitmarketer.com
 Description:       A plugin to automatically update Profit Marketer plugins and themes
-Version:           2.8.1.15
+Version:           2.8.1.16
 Author:            Profit Marketer
 License:           GNU General Public License v2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
