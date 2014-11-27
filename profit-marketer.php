@@ -24,6 +24,11 @@ if ( ! class_exists( 'ProfitMarketer_Updater' ) ) {
 	require_once('includes/class-bitbucket-api.php');
 	require_once('includes/class-plugin-updater.php');
 	require_once('includes/class-theme-updater.php');
+	
+	function profitmarketer_add_menu() {
+		add_menu_page( 'Profit Marketer', 'Profit Marketer', 'manage_options', '#', '', 'dashicons-star-filled' );
+	}
+	add_action('admin_menu', 'profitmarketer_add_menu', 10);
 }
 
 // Instantiate class ProfitMarketer_Updater
