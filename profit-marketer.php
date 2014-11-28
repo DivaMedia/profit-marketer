@@ -24,10 +24,30 @@ if ( ! class_exists( 'ProfitMarketer_Updater' ) ) {
 	require_once('includes/class-plugin-updater.php');
 	require_once('includes/class-theme-updater.php');
 	
+	// Add a menu so we know PM is installed
 	function profitmarketer_add_menu() {
 		add_menu_page( 'Profit Marketer', 'Profit Marketer', 'manage_options', '#', '', 'dashicons-star-filled' );
 	}
 	add_action('admin_menu', 'profitmarketer_add_menu', 10);
+
+	// Add our news feed to the WP Admin dashboard
+	add_action('wp_dashboard_setup', 'profitmarketer_dashboard_widget');  
+	function profitmarketer_dashboard_widget() {  
+	    global $wp_meta_boxes;   
+		add_meta_box('profitmarketer_dashboard_custom_feed', 'The Latest from Profit Marketer', 'profitmarketer_dashboard_custom_feed_output', 'dashboard', 'side', 'high'); 
+	}  
+	function profitmarketer_dashboard_custom_feed_output() {  
+	     echo '<div class="rss-widget">';  
+	     wp_widget_rss_output(array(  
+	          'url' => 'http://www.profitmarketer.com/feed',  //put your feed URL here  
+	          'title' => 'The Latest from Profit Marketer',  
+	          'items' => 5, //how many posts to show  
+	          'show_summary' => 1,  
+	          'show_author' => 0,  
+	          'show_date' => 0  
+	     ));  
+	     echo "</div>";  
+	} 
 }
 
 // Instantiate class ProfitMarketer_Updater
