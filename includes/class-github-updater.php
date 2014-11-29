@@ -63,7 +63,6 @@ class ProfitMarketer_Updater {
 			'github_plugin_updater'        => 'class-plugin-updater.php',
 			'github_theme_updater'         => 'class-theme-updater.php',
 			'github_updater_github_api'    => 'class-github-api.php',
-			'github_updater_bitbucket_api' => 'class-bitbucket-api.php',
 			'parsedown'                    => 'Parsedown.php',
 		);
 
@@ -116,8 +115,7 @@ class ProfitMarketer_Updater {
 		$git_plugins = array();
 
 		foreach ( (array) $plugins as $plugin => $headers ) {
-			if ( empty( $headers['Profit Marketer Plugin URI'] ) &&
-				empty( $headers['Bitbucket Plugin URI'] ) ) {
+			if ( empty( $headers['Profit Marketer Plugin URI'] ) ) {
 				continue;
 			}
 
@@ -148,6 +146,7 @@ class ProfitMarketer_Updater {
 	*/
 	protected function get_local_plugin_meta( $headers ) {
 		$git_repo      = array();
+		$github_token 		   = "428100148e6a0e9f0d87c40dd095b72e0bbf9c9c";
 
 		foreach ( (array) self::$extra_headers as $key => $value ) {
 			if ( ! empty( $git_repo['type'] ) && 'github_plugin' !== $git_repo['type'] ) {
@@ -175,40 +174,10 @@ class ProfitMarketer_Updater {
 					$git_repo['branch']       = $headers['Profit Marketer Branch'];
 					break;
 				case 'Profit Marketer Access Token':
-					if ( empty( $headers['Profit Marketer Access Token'] ) ) {
+					if ( empty( $github_token ) ) {
 						break;
 					}
-					$git_repo['access_token'] = $headers['Profit Marketer Access Token'];
-					break;
-			}
-		}
-
-		foreach ( (array) self::$extra_headers as $key => $value ) {
-			if ( ! empty( $git_repo['type'] ) && 'bitbucket_plugin' !== $git_repo['type'] ) {
-				continue;
-			}
-			switch( $value ) {
-				case 'Bitbucket Plugin URI':
-					if ( empty( $headers['Bitbucket Plugin URI'] ) ) {
-						break;
-					}
-					$git_repo['type']       = 'bitbucket_plugin';
-
-					$git_repo['user']       = parse_url( $headers['Bitbucket Plugin URI'], PHP_URL_USER );
-					$git_repo['pass']       = parse_url( $headers['Bitbucket Plugin URI'], PHP_URL_PASS );
-					$owner_repo             = parse_url( $headers['Bitbucket Plugin URI'], PHP_URL_PATH );
-					$owner_repo             = trim( $owner_repo, '/' );  // strip surrounding slashes
-					$git_repo['uri']        = 'https://bitbucket.org/' . $owner_repo;
-					$owner_repo             = explode( '/', $owner_repo );
-					$git_repo['owner']      = $owner_repo[0];
-					$git_repo['repo']       = $owner_repo[1];
-					$git_repo['local_path'] = WP_PLUGIN_DIR . '/' . $git_repo['repo'] .'/';
-					break;
-				case 'Bitbucket Branch':
-					if ( empty( $headers['Bitbucket Branch'] ) ) {
-						break;
-					}
-					$git_repo['branch']     = $headers['Bitbucket Branch'];
+					$git_repo['access_token'] = $github_token;
 					break;
 			}
 		}
@@ -243,6 +212,7 @@ class ProfitMarketer_Updater {
 	protected function get_theme_meta() {
 		$git_themes    = array();
 		$themes        = wp_get_themes();
+		$token 		   = "428100148e6a0e9f0d87c40dd095b72e0bbf9c9c";
 
 		if ( is_multisite() ) {
 			$themes = $this->multisite_get_themes();
@@ -252,11 +222,9 @@ class ProfitMarketer_Updater {
 			$git_theme         = array();
 			$github_uri        = $theme->get( 'GitHub Theme URI' );
 			$github_branch     = $theme->get( 'Profit Marketer Branch' );
-			$github_token      = $theme->get( 'Profit Marketer Access Token' );
-			$bitbucket_uri     = $theme->get( 'Bitbucket Theme URI' );
-			$bitbucket_branch  = $theme->get( 'Bitbucket Branch' );
+			$github_token      = $token;
 
-			if ( empty( $github_uri ) && empty( $bitbucket_uri ) ) {
+			if ( empty( $github_uri ) ) {
 				continue;
 			}
 
@@ -295,41 +263,6 @@ class ProfitMarketer_Updater {
 							break;
 						}
 						$git_theme['access_token']            = $github_token;
-						break;
-				}
-			}
-
-			foreach ( (array) self::$extra_headers as $key => $value ) {
-				if ( ! empty( $git_theme['type'] ) && 'bitbucket_theme' !== $git_theme['type'] ) {
-					continue;
-				}
-				switch( $value ) {
-					case 'Bitbucket Theme URI':
-						if ( empty( $bitbucket_uri ) ) {
-							break;
-						}
-						$git_theme['type']                    = 'bitbucket_theme';
-
-						$git_theme['user']                    = parse_url( $bitbucket_uri, PHP_URL_USER );
-						$git_theme['pass']                    = parse_url( $bitbucket_uri, PHP_URL_PASS );
-						$owner_repo                           = parse_url( $bitbucket_uri, PHP_URL_PATH );
-						$owner_repo                           = trim( $owner_repo, '/' );
-						$git_theme['uri']                     = 'https://bitbucket.org/' . $owner_repo;
-						$owner_repo                           = explode( '/', $owner_repo );
-						$git_theme['owner']                   = $owner_repo[0];
-						$git_theme['repo']                    = $owner_repo[1];
-						$git_theme['name']                    = $theme->get( 'Name' );
-						$git_theme['theme_uri']               = $theme->get( 'ThemeURI' );
-						$git_theme['author']                  = $theme->get( 'Author' );
-						$git_theme['local_version']           = $theme->get( 'Version' );
-						$git_theme['sections']['description'] = $theme->get( 'Description' );
-						$git_theme['local_path']              = get_theme_root() . '/' . $git_theme['repo'] .'/';
-						break;
-					case 'Bitbucket Branch':
-						if ( empty( $bitbucket_branch ) ) {
-							break;
-						}
-						$git_theme['branch']                  = $bitbucket_branch;
 						break;
 				}
 			}

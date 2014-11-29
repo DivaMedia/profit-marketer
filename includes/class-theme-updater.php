@@ -35,7 +35,6 @@ class ProfitMarketer_Theme_Updater extends ProfitMarketer_Updater {
 
 		// This MUST come before we get details about the themes so the headers are correctly retrieved
 		ProfitMarketer_Updater_ProfitMarketer_API::add_headers();
-		ProfitMarketer_Updater_BitBucket_API::add_headers();
 
 		// Get details of git sourced themes
 		$this->config = $this->get_theme_meta();
@@ -50,9 +49,6 @@ class ProfitMarketer_Theme_Updater extends ProfitMarketer_Updater {
 			switch( $theme->type ) {
 				case 'github_theme':
 					$repo_api = new ProfitMarketer_Updater_ProfitMarketer_API( $theme );
-					break;
-				case 'bitbucket_theme':
-					$repo_api = new ProfitMarketer_Updater_BitBucket_API( $theme );
 					break;
 			}
 

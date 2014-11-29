@@ -24,10 +24,7 @@ class ProfitMarketer_Plugin_Updater extends ProfitMarketer_Updater {
 	public function __construct() {
 
 		// This MUST come before we get details about the plugins so the headers are correctly retrieved
-		ProfitMarketer_Updater_ProfitMarketer_API::add_headers();
-		ProfitMarketer_Updater_BitBucket_API::add_headers();
-
-		// Get details of GitHub-sourced plugins
+		ProfitMarketer_Updater_ProfitMarketer_API::add_headers();		// Get details of GitHub-sourced plugins
 		$this->config = $this->get_plugin_meta();
 		
 		if ( empty( $this->config ) ) {
@@ -41,9 +38,6 @@ class ProfitMarketer_Plugin_Updater extends ProfitMarketer_Updater {
 			switch( $plugin->type ) {
 				case 'github_plugin':
 					$repo_api = new ProfitMarketer_Updater_ProfitMarketer_API( $plugin );
-					break;
-				case 'bitbucket_plugin':
-					$repo_api = new ProfitMarketer_Updater_BitBucket_API( $plugin );
 					break;
 			}
 
